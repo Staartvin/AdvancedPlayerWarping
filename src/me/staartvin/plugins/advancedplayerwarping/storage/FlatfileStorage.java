@@ -93,7 +93,7 @@ public class FlatfileStorage implements WarpStorage {
     @Override
     public List<Warp> getAccessiblePrivateWarps(UUID uuid) {
         return this.getAllWarps().parallelStream().filter(warp -> warp.getType() == WarpType.PRIVATE
-                && !warp.getOwner().equals(uuid) // We do not want the private warps of the requested player
+                && !warp.isOwner(uuid) // We do not want the private warps of the requested player
                 && warp.getWhitelist().contains(uuid))
                 .collect(Collectors.toList());
     }
@@ -175,7 +175,7 @@ public class FlatfileStorage implements WarpStorage {
     }
 
     private boolean areSameWarps(Warp one, Warp two) {
-        if (!one.getOwner().equals(two.getOwner())) {
+        if (!one.isOwner(two.getOwner())) {
             return false;
         }
 

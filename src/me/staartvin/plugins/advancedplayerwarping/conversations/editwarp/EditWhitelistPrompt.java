@@ -92,7 +92,7 @@ public class EditWhitelistPrompt extends StringPrompt {
             if (!plugin.getEconomyManager().withdrawFunds(player.getUniqueId(), cost)) {
                 player.sendMessage(Message.WARPS_INSUFFICIENT_FUNDS.getTranslatedMessage(
                         plugin.getEconomyManager().getMissingFunds(player.getUniqueId(), cost)));
-                return this;
+                return END_OF_CONVERSATION;
             }
         }
 

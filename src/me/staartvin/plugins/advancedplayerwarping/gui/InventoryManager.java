@@ -6,6 +6,8 @@ import me.staartvin.plugins.advancedplayerwarping.config.MenuIcon;
 import me.staartvin.plugins.advancedplayerwarping.conversations.ConversationCallback;
 import me.staartvin.plugins.advancedplayerwarping.conversations.PluginConversation;
 import me.staartvin.plugins.advancedplayerwarping.conversations.editwarp.*;
+import me.staartvin.plugins.advancedplayerwarping.conversations.filterwarps.RequestPlayerNamePrompt;
+import me.staartvin.plugins.advancedplayerwarping.conversations.filterwarps.RequestStringPrompt;
 import me.staartvin.plugins.advancedplayerwarping.gui.filter.WarpFilter;
 import me.staartvin.plugins.advancedplayerwarping.gui.filter.WarpFilterKeys;
 import me.staartvin.plugins.advancedplayerwarping.gui.inventory.*;
@@ -15,6 +17,7 @@ import me.staartvin.plugins.advancedplayerwarping.permissions.results.CreateWarp
 import me.staartvin.plugins.advancedplayerwarping.warps.Warp;
 import me.staartvin.plugins.advancedplayerwarping.warps.WarpIcon;
 import me.staartvin.plugins.advancedplayerwarping.warps.WarpType;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.conversations.Prompt;
@@ -50,17 +53,9 @@ public class InventoryManager {
             gui = getInventoryAccessiblePrivateWarpsMenu(player.getUniqueId());
         } else if (type == AWPMenuType.OWNED_WARPS_MENU) {
             gui = getInventoryOwnedWarps(player.getUniqueId());
-        } else if (type == AWPMenuType.FILTERED_WARPS_MENU) {
-            gui = getInventoryFilteredWarps(new WarpFilter().addFilter(WarpFilterKeys.OWNER, player.getUniqueId()));
         }
 
         if (gui == null) return;
-
-        player.openInventory(gui.getInventory());
-    }
-
-    public void openFilteredInventory(Player player, WarpFilter... filters) {
-        PaginatedGUI gui = getInventoryFilteredWarps(filters);
 
         player.openInventory(gui.getInventory());
     }
@@ -112,7 +107,34 @@ public class InventoryManager {
                             .amount(1).name(config.getIconTitle(MenuIcon.MAIN_MENU_SEARCH_WARPS_BY_PLAYER))
                             .lore(config.getIconDescription(MenuIcon.MAIN_MENU_SEARCH_WARPS_BY_PLAYER)).build(),
                             event -> {
-                                this.openInventory(AWPMenuType.FILTERED_WARPS_MENU, (Player) event.getWhoClicked());
+                                event.setCancelled(true);
+                                event.getWhoClicked().closeInventory();
+
+                                // Request a player name to filter on.
+                                PluginConversation conversation =
+                                        PluginConversation.fromFirstPrompt(new RequestPlayerNamePrompt());
+
+                                conversation.afterConversationEnded(callback -> {
+
+                                    // We got a name from the player, so we use that to filter the warps on.
+                                    if (callback.wasSuccessful()) {
+
+                                        UUID targetUUID =
+                                                (UUID) callback.getStorageObject(PluginConversation.FILTER_WARP_BY_USER_IDENTIFIER);
+
+                                        // Filter based on the owner.
+                                        WarpFilter ownerFilter = new WarpFilter(WarpFilterKeys.OWNER, targetUUID);
+
+                                        getInventoryFilteredWarps("Warps of " + Bukkit.getOfflinePlayer(targetUUID).getName(), ownerFilter).showPlayer(player);
+                                    } else {
+                                        getInventoryMainMenu(player).showPlayer(player);
+                                    }
+
+                                });
+
+                                conversation.setEscapeSequence("stop");
+
+                                conversation.startConversation(player);
                             }));
         }
 
@@ -121,7 +143,40 @@ public class InventoryManager {
             ui.setButton(15,
                     new GUIButton(ItemBuilder.start(config.getIconMaterial(MenuIcon.MAIN_MENU_SEARCH_WARPS_BY_STRING))
                             .amount(1).name(config.getIconTitle(MenuIcon.MAIN_MENU_SEARCH_WARPS_BY_STRING))
-                            .lore(config.getIconDescription(MenuIcon.MAIN_MENU_SEARCH_WARPS_BY_STRING)).build()));
+                            .lore(config.getIconDescription(MenuIcon.MAIN_MENU_SEARCH_WARPS_BY_STRING)).build(),
+                            event -> {
+                                event.setCancelled(true);
+                                event.getWhoClicked().closeInventory();
+
+                                // Request a player name to filter on.
+                                PluginConversation conversation =
+                                        PluginConversation.fromFirstPrompt(new RequestStringPrompt());
+
+                                conversation.afterConversationEnded(callback -> {
+
+                                    // We got a name from the player, so we use that to filter the warps on.
+                                    if (callback.wasSuccessful()) {
+
+                                        String term =
+                                                callback.getStorageString(PluginConversation.FILTER_WARP_BY_STRING_IDENTIFIER);
+
+                                        // Filter based on the name and description
+                                        WarpFilter filter = new WarpFilter(WarpFilterKeys.EQUALS_NAME, term)
+                                                .addFilter(WarpFilterKeys.CONTAINS_IN_DESCRIPTION, term);
+                                        filter.setShouldMatchAll(false);
+
+
+                                        getInventoryFilteredWarps("Warps containing '" + term + "'", filter).showPlayer(player);
+                                    } else {
+                                        getInventoryMainMenu(player).showPlayer(player);
+                                    }
+
+                                });
+
+                                conversation.setEscapeSequence("stop");
+
+                                conversation.startConversation(player);
+                            }));
         }
 
         this.addCloseButton(ui);
@@ -244,16 +299,30 @@ public class InventoryManager {
         return ui;
     }
 
-    private PaginatedGUI getInventoryFilteredWarps(WarpFilter... filters) {
-        PaginatedGUI ui = new PaginatedGUI("Search warps by filter");
+    private PaginatedGUI getInventoryFilteredWarps(String inventoryTitle, WarpFilter filter) {
+        PaginatedGUI ui = new PaginatedGUI(inventoryTitle);
 
         List<Warp> warps = plugin.getWarpManager().getWarpStorageProvider().getAllWarps().stream()
-                .filter(warp -> warp.matchesFilters(filters))
+                .filter(warp -> warp.matchesFilters(filter))
                 .sorted(Comparator.comparing(o -> o.getDisplayName(false)))
                 .collect(Collectors.toList());
 
         List<GUIButton> buttons =
-                warps.stream().map(warp -> new GUIButton(warp.getItemStack())).collect(Collectors.toList());
+                warps.stream().map(warp -> new GUIButton(warp.getItemStack(), event -> {
+                    event.setCancelled(true);
+
+                    Player player = (Player) event.getWhoClicked();
+
+                    // User wants to edit menu.
+                    if (event.isRightClick()) {
+
+                        if (!PermissionManager.canEditWarp(player, warp)) return;
+
+                        player.openInventory(this.getEditMenu(player, warp).getInventory());
+                    } else if (event.isLeftClick()) {
+                        plugin.getTeleportHandler().teleportPlayer(player, warp);
+                    }
+                })).collect(Collectors.toList());
 
         this.fillInventoryWithWarps(ui, buttons);
 

@@ -211,6 +211,22 @@ public enum Message {
      */
     WARPS_INSUFFICIENT_FUNDS("warps.insufficient funds", "&cYou need at least {0} more funds to do this."),
 
+    /**
+     * You did not provide a player name.
+     */
+    FILTER_SEARCH_WARPS_BY_PLAYER_NAME("warps.search.player", "&cYou did not provide a player name."),
+
+    /**
+     * Type a playername to find all warps of that player.
+     */
+    FILTER_SEARCH_WARPS_BY_PLAYER_NAME_PROMPT("warps.search.player prompt", "&6Type a playername to find all warps of" +
+            " that player."),
+
+    /**
+     * Type a string to find the matching warps.
+     */
+    FILTER_SEARCH_WARPS_BY_STRING_PROMPT("warps.search.string prompt", "&6Type a string to find the matching warps."),
+
 
     ;
 

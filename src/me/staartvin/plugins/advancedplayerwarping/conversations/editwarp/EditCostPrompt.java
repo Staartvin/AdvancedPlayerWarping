@@ -61,7 +61,7 @@ public class EditCostPrompt extends StringPrompt {
             if (!plugin.getEconomyManager().withdrawFunds(player.getUniqueId(), pay)) {
                 player.sendMessage(Message.WARPS_INSUFFICIENT_FUNDS.getTranslatedMessage(
                         plugin.getEconomyManager().getMissingFunds(player.getUniqueId(), pay)));
-                return this;
+                return END_OF_CONVERSATION;
             }
         }
 

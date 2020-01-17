@@ -26,6 +26,8 @@ public class PluginConversation {
 
     public static String CONVERSATION_SUCCESSFUL_IDENTIFIER = "success";
     public static String EDITED_WARP_IDENTIFIER = "editedWarp";
+    public static String FILTER_WARP_BY_USER_IDENTIFIER = "targetUUID";
+    public static String FILTER_WARP_BY_STRING_IDENTIFIER = "targetString";
     static String CONVERSATION_IDENTIFIER = "awpConversation";
 
     // A static map to register who's already in a conversation. You can't start a new conversation with a player if

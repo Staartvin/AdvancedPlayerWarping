@@ -21,7 +21,7 @@ public class PermissionManager {
         Objects.requireNonNull(player);
         Objects.requireNonNull(warp);
 
-        if (warp.getOwner().equals(player.getUniqueId())) return true;
+        if (warp.isOwner(player.getUniqueId())) return true;
 
         WarpPermissions permission;
 
