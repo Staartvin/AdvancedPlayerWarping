@@ -1,0 +1,274 @@
+#############################################################################
+#                                                                           #
+#             Configuration file of Advanced Player Warping                 #
+#                                                                           #
+#############################################################################
+
+warps:
+  # Time-out to be able to use a warp again (in seconds).
+  time-out: 5
+
+  # The maximum cost a player can set for using their warp (setting to 0 means no maximum)
+  max-cost: 1000.0
+
+  # The minimum cost a player can set for using their warp
+  min-cost: 0.0
+
+  # This section is all about editing warps
+  editing:
+    # Cost to adjust the name of a warp
+    warp-name-cost: 0.0
+
+    # Cost to adjust the description
+    warp-description-cost: 0.0
+
+    # Cost to adjust the cost of a warp (hehe)
+    warp-cost-cost: 0.0
+
+    # Cost to adjust type of warp
+    warp-type-cost: 0.0
+
+    # Cost to adjust icon of the warp
+    warp-icon-cost: 0.0
+
+    # Cost to adjust whether the icon looks enchanted.
+    warp-enchanted-icon-cost: 0.0
+
+    # Cost to relocate the warp
+    warp-relocate-cost: 0.0
+
+    # Cost to edit the whitelist
+    warp-whitelist-cost: 0.0
+
+    # Words that cannot be used when setting the name of a warp
+    blacklisted-warp-names:
+      - poop
+      - shit
+      - heho
+
+    # Words that cannot be used when setting the description of a warp
+    blacklisted-warp-descriptions:
+      - poop
+      - shit
+      - heho
+
+    # Items that cannot be used to set as icons for a warp.
+    blacklisted-warp-icons:
+      - PAPER
+      - END_PORTAL
+      - SPONGE
+
+  # This section allows you to configure what the limits of owning warps is.
+  limits:
+    # When a player does not have a limit permission for private warps, what is the default limit?
+    default-private-warps: 5
+
+    # When a player does not have a limit permission for public warps, what is the default limit?
+    default-public-warps: 2
+# This section of the config is used for configuring options regarding the menu's
+menus:
+  main:
+    # Title shown in the top part of the inventory when the main menu is opened
+    title: 'Main menu'
+
+    # Config the server warps icon
+    server-warps:
+      # Whether the main menu should show the 'server warps' option.
+      enabled: true
+      # The material of the icon
+      icon: DARK_OAK_SIGN
+      # Title of the icon
+      title: '&6Server Warps'
+      # Description of the icon
+      description:
+        - Server warps are made by staff
+        - and available to all users.
+
+    # Config the public warps icon
+    public-warps:
+      # Whether the main menu should show the 'public warps' option.
+      enabled: true
+      # The material of the icon
+      icon: LADDER
+      # Title of the icon
+      title: '&6Public Warps'
+      # Description of the icon
+      description:
+        - These warps are made by
+        - regular players and can be
+        - used by anyone.
+
+    # Config the accessible-private warps icon
+    accessible-private-warps:
+      # Whether the main menu should show the 'accessible-private warps' option.
+      enabled: true
+      # The material of the icon
+      icon: OAK_DOOR
+      # Title of the icon
+      title: '&6Accessible Private Warps'
+      # Description of the icon
+      description:
+        - These warps are owned by
+        - someone else and specifically
+        - made available to you.
+
+    # Config the owned warps icon
+    owned-warps:
+      # Whether the main menu should show the 'owned warps' option.
+      enabled: true
+      # The material of the icon
+      icon: RED_BED
+      # Title of the icon
+      title: '&6Your Own Warps'
+      # Description of the icon
+      description:
+        - These warps are all yours.
+
+    # Config the search warps by player icon
+    search-warps-by-player:
+      # Whether the main menu should show the 'search warps by player' option.
+      enabled: true
+      # The material of the icon
+      icon: CYAN_STAINED_GLASS_PANE
+      # Title of the icon
+      title: '&6Search by player'
+      # Description of the icon
+      description:
+        - Search a warp by player name.
+
+    # Config the search warps by string icon
+    search-warps-by-string:
+      # Whether the main menu should show the 'search warps by string' option.
+      enabled: true
+      # The material of the icon
+      icon: ORANGE_STAINED_GLASS_PANE
+      # Title of the icon
+      title: '&6Search by string'
+      # Description of the icon
+      description:
+        - Search a warp by string.
+  server-warps:
+    # Title shown in the top part of the inventory when this menu is opened
+    title: "Server Warps"
+  public-warps:
+    # Title shown in the top part of the inventory when this menu is opened
+    title: "Public Warps"
+  accessible-private-warps:
+    # Title shown in the top part of the inventory when this menu is opened
+    title: "Accessible Private Warps"
+  owned-warps:
+    # Title shown in the top part of the inventory when this menu is opened
+    title: "Your Owned Warps"
+  search-warps-by-player:
+    # Title shown in the top part of the inventory when this menu is opened
+    title: "Search warps by player"
+  search-warps-by-string:
+    # Title shown in the top part of the inventory when this menu is opened
+    title: "Search warps by string"
+  edit-warp:
+    # Title shown in the top part of the inventory when this menu is opened
+    title: "Editing %warp-name%"
+
+    # Configure the button to edit the name of the warp
+    edit-name:
+      # The material of the icon
+      icon: NAME_TAG
+      # Title of the icon
+      title: '&6Edit name'
+      # Description of the icon
+      description:
+        - Rename the warp
+
+    # Configure the button to edit the description of the warp
+    edit-description:
+      # The material of the icon
+      icon: MAP
+      # Title of the icon
+      title: '&6Edit description'
+      # Description of the icon
+      description:
+        - Adjust the description
+        - of your warp
+
+    # Configure the button to edit the type of the warp
+    edit-type:
+      # The material of the icon
+      icon: REDSTONE
+      # Title of the icon
+      title: '&6Edit type'
+      # Description of the icon
+      description:
+        - Whether this is a
+        - server, public
+        - or private warp
+
+    # Configure the button to edit the cost of the warp
+    edit-cost:
+      # The material of the icon
+      icon: GOLD_INGOT
+      # Title of the icon
+      title: '&6Edit cost'
+      # Description of the icon
+      description:
+        - Adjust the cost
+        - of a player
+        - using your warp
+
+    # Configure the button to edit the icon of the warp
+    edit-icon:
+      # The material of the icon
+      icon: PISTON
+      # Title of the icon
+      title: '&6Edit icon'
+      # Description of the icon
+      description: []
+
+    # Configure the button to edit the enchanted look of the icon
+    edit-enchanted-icon:
+      # The material of the icon
+      icon: ENCHANTED_BOOK
+      # Title of the icon
+      title: '&6Edit enchanted look'
+      # Description of the icon
+      description:
+        - Whether the icon
+        - looks enchanted
+
+    # Configure the button to edit the destination of the warp
+    edit-destination:
+      # The material of the icon
+      icon: OAK_PRESSURE_PLATE
+      # Title of the icon
+      title: '&6Relocate destination'
+      # Description of the icon
+      description:
+        - Change the destination
+        - of this warp
+
+    # Configure the button to edit the whitelist of the warp
+    edit-whitelist:
+      # The material of the icon
+      icon: ACACIA_FENCE_GATE
+      # Title of the icon
+      title: '&6Adjust whitelist'
+      # Description of the icon
+      description:
+        - Players on
+        - the whitelist
+        - are allowed to
+        - use your warp
+
+
+    # Configure the button to delete the warp
+    edit-delete:
+      # The material of the icon
+      icon: TNT
+      # Title of the icon
+      title: '&6Delete warp'
+      # Description of the icon
+      description:
+        - Remove this warp
+        - from existence
+
+
+

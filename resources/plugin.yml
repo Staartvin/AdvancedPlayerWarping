@@ -1,0 +1,91 @@
+name: AdvancedPlayerWarping
+author: Staartvin
+website: https://www.spigotmc.org/resources/scroll-teleportation.29475/
+main: me.staartvin.plugins.advancedplayerwarping.AdvancedPlayerWarping
+version: 1.0
+api-version: 1.13
+description: An advanced warping plugin that allows players to set warps.
+softdepend:
+  - Vault
+permissions:
+  apw.create.server:
+      description: Allows a player to create server warps.
+      default: op
+  apw.create.public:
+    description: Allows a player to create public warps.
+    default: op
+  apw.create.private:
+    description: Allows a player to create private warps.
+    default: op
+  apw.edit.server:
+    description: Allows a player to edit server warps.
+    default: op
+  apw.edit.public.others:
+    description: Allows a player to edit public warps of other players.
+    default: op
+  apw.edit.private.others:
+    description: Allows a player to edit private warps of other players.
+    default: op
+  apw.edit.warpname:
+    description: Allows a player to edit the name of their warps
+    default: op
+  apw.edit.warpname.colors:
+    description: Allows a player to use colour codes in their warp names
+    default: op
+  apw.edit.warpdescription:
+    description: Allows a player to edit the description of their warps
+    default: op
+  apw.edit.warpdescription.colors:
+    description: Allows a player to use colour codes in their warp description
+    default: op
+  apw.edit.warpcost:
+    description: Allows a player to change the cost of using their warp
+    default: op
+  apw.edit.warpicon:
+    description: Allows a player to change the icon of their warp
+    default: op
+  apw.edit.warpicon.enchanted:
+    description: Allows a player to change whether the warpicon has an enchanted look
+    default: op
+  apw.edit.destination:
+    description: Allows a player to change the destination of their warp
+    default: op
+  apw.edit.whitelist:
+    description: Allows a player to change the whitelist of their warp
+    default: op
+  apw.use.warps.server:
+    description: Allows a player to use server warps.
+    default: true
+  apw.use.warps.public:
+    description: Allows a player to use public warps.
+    default: true
+  apw.use.warps.private:
+    description: Allows a player to use private warps of other players when they are whitelisted.
+    default: true
+  apw.search.warps.player:
+    description: Allows a player to search warps by player name.
+    default: op
+  apw.search.warps.string:
+    description: Allows a player to search warps by string.
+    default: op
+  apw.bypass.limit.private:
+    description: Allows a player to build infinite private warps.
+    default: op
+  apw.bypass.limit.public:
+    description: Allows a player to build infinite public warps.
+    default: op
+  apw.reload:
+    description: Allows a player to reload the configs.
+    default: op
+  apw.bypass.economy.warps.use:
+    description: Players with this permission do not have to pay for using a warp.
+    default: op
+  apw.bypass.time-out:
+    description: Players with this permission do not have to wait for the time-out to be teleported.
+    default: op
+
+commands:
+    warp:
+      description: Global command of Advanced Player Warping
+      usage: /warp <argument>
+      aliases: [wp, awp]
