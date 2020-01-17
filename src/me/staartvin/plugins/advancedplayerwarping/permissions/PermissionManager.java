@@ -128,9 +128,6 @@ public class PermissionManager {
             limit = this.getAllowedPublicWarps(player);
         }
 
-        System.out.println("Player " + player.getName() + " can create " + limit + " " + type + " warps and currently" +
-                        " has " + createdWarps);
-
         // The player can only create a new warp if the limit has not been reached.
 
         if (createdWarps < limit) {

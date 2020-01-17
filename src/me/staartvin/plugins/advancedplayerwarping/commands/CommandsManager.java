@@ -35,8 +35,6 @@ public class CommandsManager implements CommandExecutor, TabExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
 
         if (strings.length < 1) {
-            // TODO: Implement opening inventory
-
             if (commandSender instanceof Player) {
                 plugin.getInventoryManager().openInventory(AWPMenuType.MAIN_MENU, (Player) commandSender);
             } else {

@@ -48,8 +48,6 @@ public class RequestPlayerNamePrompt extends StringPrompt {
 
         UUID targetUUID = targetPlayer.getUniqueId();
 
-        System.out.println("TARGET UUID: " + targetUUID);
-
         conversationContext.setSessionData(PluginConversation.CONVERSATION_SUCCESSFUL_IDENTIFIER, true);
         conversationContext.setSessionData(PluginConversation.FILTER_WARP_BY_USER_IDENTIFIER, targetUUID);
 
